@@ -40,3 +40,19 @@ const operate = function(operator, number1, number2) {
     }
 }
 
+//Button selection
+const buttons = Array.from(document.querySelector(".buttons").children);
+const display = document.querySelector("#display");
+
+
+//Display clicked button
+const displayClickedButton = function() {
+    buttons.forEach(button => {
+        button.addEventListener("click", e => {
+            console.log(`Clicked on ${e.currentTarget.id}`)
+            display.placeholder = e.currentTarget.innerHTML;
+            console.log(display);
+        })
+    })
+}
+displayClickedButton();
