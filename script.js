@@ -88,7 +88,7 @@ const displayClickedButton = function() {
                     display.placeholder = secondNumber;
                     console.log(`Second number: ${secondNumber}`);
                 }
-            } else if (operators.includes(value)) { // Dacă este operator
+            } else if (operators.includes(value) && !secondNumber) { // Dacă este operator
                 operation = e.currentTarget.id;
                 valuesAndOperation.operation = operation;
                 display.placeholder = value;
@@ -99,6 +99,24 @@ const displayClickedButton = function() {
                 firstNumber = '';
                 secondNumber = '';
                 operation = '';
+            } else if (operation && operators.includes(value) && firstNumber && secondNumber) { 
+                valuesAndOperation.result = valuesAndOperation.operate(valuesAndOperation.operation);
+                display.placeholder = valuesAndOperation.result;
+                firstNumber = valuesAndOperation.result;
+                valuesAndOperation.firstValue = firstNumber;
+                operation = e.currentTarget.id;
+                valuesAndOperation.operation = operation;
+                secondNumber = '';
+                valuesAndOperation.secondValue = secondNumber;
+            }
+            else if (value === "C") { 
+                firstNumber = '';
+                valuesAndOperation.firstValue = firstNumber;
+                secondNumber = '';
+                valuesAndOperation.secondValue = secondNumber;
+                operation = '';
+                valuesAndOperation.operation = operation;
+                display.placeholder = '0';
             }
         })
     })
