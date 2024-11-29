@@ -1,44 +1,65 @@
-//Input
-let number1, number2, operator;
-
-
-//Operators
-const add = function(a, b) {
-	return a + b;
-};
-const subtract = function(a, b) {
-	return a - b;
-};
-const multiply = function(a, b) {
-    return a * b;
-};
-const divide = function(a, b) {
-    return a / b;
-  };
-
-//Operate
-const operate = function(operator, number1, number2) {
-    switch (operator) {
-        case add:
-            console.log('Add operation');
-            return add(number1, number2);
-            break;
-        case subtract:
-            console.log('Subtract operation');
-            return subtract(number1, number2);
-            break;
-        case multiply:
-            console.log('Multiply operation');
-            return multiply(number1, number2);
-            break;
-        case divide:
-            console.log('Divide operation');
-            return divide(number1, number2);
-            break;
-        default:
-            console.log('Not a valid operation');
+const valuesAndOperation = {
+    firstValue: "",
+    secondValue: "",
+    operation: "",
+    result: "",
+    
+    add() {
+        this.result = Number(this.firstValue) + Number(this.secondValue);
+        console.log(`The result is ${this.result}`);
+        return this.result;
+    },
+    subtract() {
+        this.result = Number(this.firstValue) - Number(this.secondValue);
+        console.log(`The result is ${this.result}`);
+        return this.result;
+    },
+    multiply() {
+        this.result = Number(this.firstValue) * Number(this.secondValue);
+        console.log(`The result is ${this.result}`);
+        return this.result;
+    },
+    divide() {
+        if (this.secondValue === 0) {
+            throw new Error("Division by zero is not allowed");
+        }
+        this.result = Number(this.firstValue) / Number(this.secondValue);
+        console.log(`The result is ${this.result}`);
+        return this.result;
+    },
+    operate(operator) {
+        let operationResult;
+        switch (operator) {
+            case "add":
+                console.log('Add operation');
+                return this.add();
+                break;
+                
+            case "subtract":
+                console.log('Subtract operation');
+                return this.subtract();
+                break;
+                
+            case "multiply":
+                console.log('Multiply operation');
+                return this.multiply();
+                break;
+                
+            case "divide":
+                console.log('Divide operation');
+                return this.divide();
+                break;
+                
+            default:
+                console.log('Not a valid operation');
+                return null;
+        }
+        // Actualizează proprietatea result
+        this.result = operationResult;
+        // Returnează rezultatul operației
+        return operationResult;
     }
-}
+};
 
 //Button selection
 const buttons = Array.from(document.querySelector(".buttons").children);
@@ -47,12 +68,40 @@ const display = document.querySelector("#display");
 
 //Display clicked button
 const displayClickedButton = function() {
+    let firstNumber = '';
+    let secondNumber = '';
+    let operation = '';
+    const operators = ['/', '*', '-', '+'];
     buttons.forEach(button => {
         button.addEventListener("click", e => {
-            console.log(`Clicked on ${e.currentTarget.id}`)
-            display.placeholder = e.currentTarget.innerHTML;
-            console.log(display);
+            const value = e.currentTarget.innerHTML;
+            console.log(value);
+            if (!isNaN(value)) {
+                if (!firstNumber) {
+                    firstNumber = value;
+                    valuesAndOperation.firstValue = firstNumber;
+                    display.placeholder = firstNumber;
+                    console.log(`First number: ${firstNumber}`);
+                } else if (operation) {
+                    secondNumber = value; 
+                    valuesAndOperation.secondValue = secondNumber;
+                    display.placeholder = secondNumber;
+                    console.log(`Second number: ${secondNumber}`);
+                }
+            } else if (operators.includes(value)) { // Dacă este operator
+                operation = e.currentTarget.id;
+                valuesAndOperation.operation = operation;
+                display.placeholder = value;
+                console.log(`Operation: ${operation}`);
+            } else if (value === "=" && firstNumber && secondNumber && operation) { 
+                valuesAndOperation.result = valuesAndOperation.operate(valuesAndOperation.operation);
+                display.placeholder = valuesAndOperation.result;
+                firstNumber = '';
+                secondNumber = '';
+                operation = '';
+            }
         })
     })
 }
 displayClickedButton();
+
