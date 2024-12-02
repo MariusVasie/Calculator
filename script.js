@@ -54,19 +54,14 @@ const valuesAndOperation = {
                 console.log('Not a valid operation');
                 return null;
         }
-        // Actualizează proprietatea result
         this.result = operationResult;
-        // Returnează rezultatul operației
         return operationResult;
     }
 };
 
-//Button selection
 const buttons = Array.from(document.querySelector(".buttons").children);
 const display = document.querySelector("#display");
 
-
-//Display clicked button
 const displayClickedButton = function() {
     let firstNumber = '';
     let secondNumber = '';
@@ -88,7 +83,7 @@ const displayClickedButton = function() {
                     display.placeholder = secondNumber;
                     console.log(`Second number: ${secondNumber}`);
                 }
-            } else if (operators.includes(value) && !secondNumber) { // Dacă este operator
+            } else if (operators.includes(value) && !secondNumber) { 
                 operation = e.currentTarget.id;
                 valuesAndOperation.operation = operation;
                 display.placeholder = value;
