@@ -44,3 +44,7 @@ button {
 button:hover {
     background-color: #01685a;
 }
+
+#equal {
+    grid-column-start: span 3; 
+}

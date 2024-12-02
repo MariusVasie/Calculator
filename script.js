@@ -21,7 +21,7 @@ const valuesAndOperation = {
     },
     divide() {
         if (this.secondValue === 0) {
-            throw new Error("Division by zero is not allowed");
+            alert("Division by zero is not allowed");
         }
         this.result = Number(this.firstValue) / Number(this.secondValue);
         console.log(`The result is ${this.result}`);
@@ -66,6 +66,7 @@ const displayClickedButton = function() {
     let firstNumber = '';
     let secondNumber = '';
     let operation = '';
+    let hasDecimal = false; // variable to use for decimal condition
     const operators = ['/', '*', '-', '+'];
     buttons.forEach(button => {
         button.addEventListener("click", e => {
