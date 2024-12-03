@@ -78,11 +78,19 @@ const displayClickedButton = function() {
                     valuesAndOperation.firstValue = firstNumber;
                     display.placeholder = firstNumber;
                     console.log(`First number: ${firstNumber}`);
-                } else if (operation) {
+                } else if (operation && !(secondNumber.includes("."))) {
                     secondNumber = value; 
                     valuesAndOperation.secondValue = secondNumber;
                     display.placeholder = secondNumber;
                     console.log(`Second number: ${secondNumber}`);
+                } else if (firstNumber && !operation && firstNumber.includes(".") && firstNumber.length < 16) {
+                    firstNumber = firstNumber + value.toString();
+                    display.placeholder = firstNumber;
+                    valuesAndOperation.firstValue = firstNumber;
+                } else if (operation && secondNumber && secondNumber.includes(".") && secondNumber.length < 16) {
+                    secondNumber = secondNumber + value.toString();
+                    display.placeholder = secondNumber;
+                    valuesAndOperation.secondValue = secondNumber;
                 }
             } else if (operators.includes(value) && !secondNumber) { 
                 operation = e.currentTarget.id;
@@ -104,8 +112,7 @@ const displayClickedButton = function() {
                 valuesAndOperation.operation = operation;
                 secondNumber = '';
                 valuesAndOperation.secondValue = secondNumber;
-            }
-            else if (value === "C") { 
+            } else if (value === "C") { 
                 firstNumber = '';
                 valuesAndOperation.firstValue = firstNumber;
                 secondNumber = '';
@@ -113,6 +120,14 @@ const displayClickedButton = function() {
                 operation = '';
                 valuesAndOperation.operation = operation;
                 display.placeholder = '0';
+            } else if (value === "." && firstNumber && !secondNumber) {
+                firstNumber = firstNumber + '.';
+                display.placeholder = firstNumber;
+                valuesAndOperation.firstValue = firstNumber;
+            } else if (value === "." && operation && secondNumber) {
+                secondNumber = secondNumber + '.';
+                display.placeholder = secondNumber;
+                valuesAndOperation.secondValue = secondNumber;
             }
         })
     })
