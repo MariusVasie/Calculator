@@ -66,7 +66,6 @@ const displayClickedButton = function() {
     let firstNumber = '';
     let secondNumber = '';
     let operation = '';
-    let hasDecimal = false; // variable to use for decimal condition
     const operators = ['/', '*', '-', '+'];
     buttons.forEach(button => {
         button.addEventListener("click", e => {
@@ -120,14 +119,35 @@ const displayClickedButton = function() {
                 operation = '';
                 valuesAndOperation.operation = operation;
                 display.placeholder = '0';
-            } else if (value === "." && firstNumber && !secondNumber) {
+            } else if (value === "." && firstNumber && !secondNumber && !(firstNumber.includes("."))) {
                 firstNumber = firstNumber + '.';
                 display.placeholder = firstNumber;
                 valuesAndOperation.firstValue = firstNumber;
-            } else if (value === "." && operation && secondNumber) {
+            } else if (value === "." && operation && secondNumber && !(secondNumber.includes("."))) {
                 secondNumber = secondNumber + '.';
                 display.placeholder = secondNumber;
                 valuesAndOperation.secondValue = secondNumber;
+            } else if (value === "←" && firstNumber && !operation && !secondNumber) {
+                if (firstNumber.length > 1) {
+                    firstNumber = firstNumber.slice(0, -1);
+                    display.placeholder = firstNumber;
+                    valuesAndOperation.firstValue = firstNumber;
+                } else {
+                    display.placeholder = '0';
+                    firstNumber = '';
+                    valuesAndOperation.firstValue = firstNumber;
+                }
+            } else if (value === "←" && firstNumber && operation && secondNumber) {
+                if (secondNumber.length > 1) {
+                    secondNumber = secondNumber.slice(0, -1);
+                    display.placeholder = secondNumber;
+                    valuesAndOperation.secondValue = secondNumber;
+                } else {
+                    display.placeholder = '0';
+                    secondNumber = '';
+                    valuesAndOperation.secondValue = secondNumber;
+                }
+                
             }
         })
     })
