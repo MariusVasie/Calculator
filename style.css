@@ -45,6 +45,14 @@ button:hover {
     background-color: #01685a;
 }
 
+.red-btn {
+    background-color: #B10018;
+}
+
+.red-btn:hover {
+    background-color: #68010F;
+}
+
 #equal {
     grid-column-start: span 3; 
 }
