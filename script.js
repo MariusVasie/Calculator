@@ -6,52 +6,43 @@ const valuesAndOperation = {
     
     add() {
         this.result = Number(this.firstValue) + Number(this.secondValue);
-        console.log(`The result is ${this.result}`);
         return this.result;
     },
     subtract() {
         this.result = Number(this.firstValue) - Number(this.secondValue);
-        console.log(`The result is ${this.result}`);
         return this.result;
     },
     multiply() {
         this.result = Number(this.firstValue) * Number(this.secondValue);
-        console.log(`The result is ${this.result}`);
         return this.result;
     },
     divide() {
-        if (this.secondValue === 0) {
+        if (this.secondValue === '0') {
             alert("Division by zero is not allowed");
         }
         this.result = Number(this.firstValue) / Number(this.secondValue);
-        console.log(`The result is ${this.result}`);
         return this.result;
     },
     operate(operator) {
         let operationResult;
         switch (operator) {
             case "+":
-                console.log('Add operation');
                 return this.add();
                 break;
                 
             case "-":
-                console.log('Subtract operation');
                 return this.subtract();
                 break;
                 
             case "*":
-                console.log('Multiply operation');
                 return this.multiply();
                 break;
                 
             case "/":
-                console.log('Divide operation');
                 return this.divide();
                 break;
                 
             default:
-                console.log('Not a valid operation');
                 return null;
         }
         this.result = operationResult;
@@ -70,16 +61,19 @@ const myCalculator = function() {
     const operators = ['/', '*', '-', '+'];
 
     document.addEventListener('keyup', e => {
-        console.log(e.key)
-        value = e.key;
-        calculate(value);
+        if (e.code == 'NumpadEnter') { 
+            value = 'Enter';
+            calculate(value);
+        } else {
+            value = e.key;
+            calculate(value);
+        }
       }
     );
 
     buttons.forEach(button => {
         button.addEventListener("click", e => {
             value = e.currentTarget.innerHTML;
-            console.log(value);
             calculate(value);
         })
     })
@@ -90,12 +84,10 @@ const myCalculator = function() {
                 firstNumber = value;
                 valuesAndOperation.firstValue = firstNumber;
                 display.placeholder = firstNumber;
-                console.log(`First number: ${firstNumber}`);
             } else if (operation && !(secondNumber.includes("."))) {
                 secondNumber = value; 
                 valuesAndOperation.secondValue = secondNumber;
                 display.placeholder = secondNumber;
-                console.log(`Second number: ${secondNumber}`);
             } else if (firstNumber && !operation && firstNumber.includes(".") && firstNumber.length < 16) {
                 firstNumber = firstNumber + value.toString();
                 display.placeholder = firstNumber;
@@ -109,13 +101,15 @@ const myCalculator = function() {
             operation = value;
             valuesAndOperation.operation = operation;
             display.placeholder = value;
-            console.log(`Operation: ${operation}`);
-        } else if (value === "=" && firstNumber && secondNumber && operation) { 
+        } else if ((value === "=" || value === "Enter") && firstNumber && secondNumber && operation) { 
             valuesAndOperation.result = valuesAndOperation.operate(valuesAndOperation.operation);
             display.placeholder = valuesAndOperation.result;
-            firstNumber = '';
+            firstNumber = valuesAndOperation.result;
+            valuesAndOperation.firstValue = firstNumber;
             secondNumber = '';
+            valuesAndOperation.secondValue = secondNumber;
             operation = '';
+            valuesAndOperation.operation = operation;
         } else if (operation && operators.includes(value) && firstNumber && secondNumber) { 
             valuesAndOperation.result = valuesAndOperation.operate(valuesAndOperation.operation);
             display.placeholder = valuesAndOperation.result;
